@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hi="urn:havis:tools:jaxb:interface" xmlns:hc="urn:havis:tools:jaxb:constructor" xmlns:ci="http://jaxb.dev.java.net/plugin/code-injector" extensionBindingPrefixes="hi hc ci">
+
+	<globalBindings generateElementProperty="false">
+		<javaType name="java.util.Date" xmlType="xs:dateTime" parseMethod="havis.util.monitor.DateTypeAdapter.parseDate" printMethod="havis.util.monitor.DateTypeAdapter.printDate" />
+	</globalBindings>
+
+	<bindings schemaLocation="../../resources/xml/Monitor.xsd">
+
+		<bindings node="/xs:schema/xs:complexType[@name='Configuration']">
+			<hi:interface>java.io.Serializable</hi:interface>
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='Capabilities']">
+			<hi:interface>java.io.Serializable</hi:interface>
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='DeviceCapabilities']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+	        <hc:constructor default="true">String name, String manufacturer, String model, String firmware</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='AntennaConfiguration']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">short id, ConnectType connect</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='Event']">
+			<hi:interface>java.io.Serializable</hi:interface>
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ReaderEvent']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TagEvent']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+	        <hc:constructor default="true">java.util.Date timestamp, byte[] id, int antenna, int rssi</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ReaderError']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='UsabilityChanged']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean usable</hc:constructor>
+		</bindings>
+		
+		<bindings node="/xs:schema/xs:complexType[@name='TransportEvent']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TransportError']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean state, String description</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TransportQueueError']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean state, String description</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='VisibilityChanged']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean visible</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ConnectionError']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean state, String description</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='ReconnectError']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean state, String description</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='FirmwareError']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean state, String description</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='FirmwareWarning']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean state, String description</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='TagError']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean state, String description</hc:constructor>
+		</bindings>
+
+		<bindings node="/xs:schema/xs:complexType[@name='AntennaError']">
+			<ci:code>
+	private static final long serialVersionUID = 1L;
+	        </ci:code>
+			<hc:constructor default="true">java.util.Date timestamp, boolean state, String description, short id</hc:constructor>
+		</bindings>
+
+	</bindings>
+
+</bindings>
+	

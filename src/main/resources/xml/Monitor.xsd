@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="urn:havis:util:monitor:xsd:1" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" targetNamespace="urn:havis:util:monitor:xsd:1">
+
+	<xs:complexType name="Capabilities" abstract="true" />
+	<xs:complexType name="Configuration" abstract="true" />
+
+	<xs:simpleType name="ConnectType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="TRUE">
+				<xs:annotation>
+					<xs:documentation>Use antenna always</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FALSE">
+				<xs:annotation>
+					<xs:documentation>Use antenna never</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AUTO">
+				<xs:annotation>
+					<xs:documentation>Use antenna if connected</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CapabilityType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALL">
+				<xs:annotation>
+					<xs:documentation>All capibilities</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DEVICE_CAPABILITIES">
+				<xs:annotation>
+					<xs:documentation>Device capibilities</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ConfigurationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALL">
+				<xs:annotation>
+					<xs:documentation>All configuration</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ANTENNA_CONFIGURATION">
+				<xs:annotation>
+					<xs:documentation>Antenna configuration</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AntennaConfiguration">
+		<xs:complexContent>
+			<xs:extension base="Configuration">
+				<xs:sequence>
+					<xs:element name="id" type="xs:short">
+						<xs:annotation>
+							<xs:documentation>
+								The antenna id
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="connect" type="ConnectType">
+						<xs:annotation>
+							<xs:documentation>
+								The antenna connect type
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DeviceCapabilities">
+		<xs:complexContent>
+			<xs:extension base="Capabilities">
+				<xs:sequence>
+					<xs:element name="name" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The reader name
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="manufacturer" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The manufacturer
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="model" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The model
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="firmware" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The firmware
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Event" abstract="true">
+		<xs:sequence>
+			<xs:element name="timestamp" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>
+						The timestamp of the event
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="UsabilityChanged">
+		<xs:complexContent>
+			<xs:extension base="Event">
+				<xs:sequence>
+					<xs:element name="usable" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>
+								The usable state
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="TransportEvent" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="Event" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="TransportError">
+		<xs:complexContent>
+			<xs:extension base="TransportEvent">
+				<xs:sequence>
+					<xs:element name="state" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>
+								The transport error state
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="description" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The transport error description
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="TransportQueueError">
+		<xs:complexContent>
+			<xs:extension base="TransportError" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ReaderEvent" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="Event" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="TagEvent">
+		<xs:complexContent>
+			<xs:extension base="ReaderEvent">
+				<xs:sequence>
+					<xs:element name="id" type="xs:base64Binary" />
+					<xs:element name="antenna" type="xs:int" />
+					<xs:element name="rssi" type="xs:int" />
+				</xs:sequence>
+
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="VisibilityChanged">
+		<xs:complexContent>
+			<xs:extension base="ReaderEvent">
+				<xs:sequence>
+					<xs:element name="visible" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>
+								The reader visible state
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ReaderError" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="ReaderEvent">
+				<xs:sequence>
+					<xs:element name="state" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>
+								The reader error state
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="description" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>
+								The reader error description
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AntennaError">
+		<xs:complexContent>
+			<xs:extension base="ReaderError">
+				<xs:sequence>
+					<xs:element name="id" type="xs:short">
+						<xs:annotation>
+							<xs:documentation>
+								The antenna id where reader error occured
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="TagError">
+		<xs:complexContent>
+			<xs:extension base="ReaderError" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="FirmwareError">
+		<xs:complexContent>
+			<xs:extension base="ReaderError" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="FirmwareWarning">
+		<xs:complexContent>
+			<xs:extension base="ReaderError" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ConnectionError">
+		<xs:complexContent>
+			<xs:extension base="ReaderError" />
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ReconnectError">
+		<xs:complexContent>
+			<xs:extension base="ReaderError" />
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>
+
+

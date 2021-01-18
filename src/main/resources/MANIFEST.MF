@@ -1,0 +1,14 @@
+Bundle-Name: Ha-VIS Util Monitor
+Bundle-SymbolicName: havis.util.monitor
+Bundle-Version: 2.6.0
+Implementation-Version: 2.6
+Bundle-ManifestVersion: 2
+Bundle-Vendor: HARTING IT_SD
+Bundle-Activator: havis.util.monitor.osgi.Activator
+Import-Package: 
+ javax.xml.bind,
+ org.osgi;resolution:=optional,
+ org.osgi.framework;resolution:=optional,
+ org.osgi.util.tracker;resolution:=optional
+Export-Package: 
+ havis.util.monitor

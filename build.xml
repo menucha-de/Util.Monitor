@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project name="havis.util.monitor" default="publish" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property file="${basedir}/build.properties" />
+
+	<import>
+		<url url="${ivy.url}/ant/default.xml" />
+	</import>
+
+	<property name="build.dir.xml" value="${build.dir}/xml" />
+	<property name="build.dir.xml.classes" value="${build.dir.xml}/classes" />
+	<property name="build.dir.xml.src" value="${build.dir.xml}/src" />
+
+	<target name="clean-cache">
+		<clean-cache />
+	</target>
+
+	<target name="clean-all">
+		<clean-all />
+	</target>
+
+	<target name="jar">
+		<xjc name="Monitor" args="-Xconstructor -Xinterface -Xinject-code">
+			<binding dir="${resources.dir}" includes="binding/Monitor.xml" />
+		</xjc>
+		<compile dst="${build.dir.classes}">
+			<src path="${src.main.dir}" />
+			<include name="**/DateTypeAdapter.java" />
+		</compile>
+		<compile dst="${build.dir.xml.classes}">
+			<src path="${build.dir.xml.src}" />
+			<classpath>
+				<pathelement location="${build.dir.classes}" />
+			</classpath>
+		</compile>
+		<compile dst="${build.dir.classes}">
+			<src path="${src.main.dir}" />
+			<exclude name="**/DateTypeAdapter.java" />
+			<classpath>
+				<pathelement location="${build.dir.xml.classes}" />
+			</classpath>
+		</compile>
+		<module-info />
+		<jar-bin />
+	</target>
+
+	<target name="publish" depends="jar" description="Publishes the JAR to the repository">
+		<publish jar="false" app="false" />
+	</target>
+
+</project>
